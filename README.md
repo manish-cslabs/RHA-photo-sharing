@@ -20,4 +20,4 @@ By default, the script fetches a random image from Unsplash and adds a border an
 After running the script, the generated image will be saved in the same directory with the filename `decorated_image.png`.
 --- 
 ### decorated_image
-![Decorated image]("decorated_image.png")
+![Decorated image](decorated_image.png)
