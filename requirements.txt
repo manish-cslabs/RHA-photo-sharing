@@ -1,0 +1,7 @@
+certifi @ file:///C:/ci_311/certifi_1676421629969/work/certifi
+charset-normalizer==3.1.0
+idna==3.4
+Pillow==9.5.0
+requests==2.28.2
+urllib3==1.26.15
+wincertstore==0.2
