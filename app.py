@@ -97,13 +97,29 @@ draw.text((x, y), text, font=font, fill=(255, 255, 255), align='center')
 used_height = y + text_height
 
 # ~~~~~~ website box ~~~~~~
+# Put the logo image
+rha_logo_img = Image.open("static/website.png")
+# resize the logo image
+new_size = tuple(dim - padding for dim in container_size)
+# new_size = tuple(dim // 1.6 for dim in container_size)
+rha_logo_img.thumbnail(new_size)
 
-
+# paste the logo image in the center of the container
+# container_width, container_height = container.size
+logo_width, logo_height = rha_logo_img.size
+x = (container_width - logo_width) // 2
+y = int(used_height + margin*1.5)
+container.paste(rha_logo_img, (x, y))
+used_height = y + logo_height
 # # Create a draw object for the image
-# text = "Go to robinhoodarmy.com to learn more"
+# text = "Go to "
+# bold_text = "robinhoodarmy.com"
+# remainig_text = "to learn more"
 # font = ImageFont.truetype("arial.ttf", 15)
+# bold_font = ImageFont.truetype("arialbd.ttf", 15)
+# remainig_text_font = ImageFont.truetype("arial.ttf", 15)
 # # get text box size
-# text_box = draw.textbbox((0, 0), text, font=font)
+# text_box = draw.textbbox((0, 0), text + bold_text + remainig_text, font=bold_font)
 # text_width, text_height = (
 #     text_box[2] - text_box[0]), (text_box[3] - text_box[1])
 
@@ -113,38 +129,14 @@ used_height = y + text_height
 # draw = ImageDraw.Draw(url_container)
 
 # draw.text((margin//2, margin//2), text, font=font, fill=(0, 0, 0), align='center')
+# draw.text((margin//2 + draw.textsize(text, font=font)[0], margin//2), bold_text, font=bold_font, fill=(0, 0, 0), align='center')
+# draw.text((margin//2 + + margin//2 + draw.textsize(text, font=font)[0] +draw.textsize(bold_text, font=font)[0], margin//2), remainig_text, font=font, fill=(0, 0, 0), align='center')
 
 # url_container_width, url_container_height = url_container.size
 # x = (container_width - url_container_width) // 2
 # y = int(used_height + margin*2)
 # container.paste(url_container, (x, y))
 # used_height = y + url_container_height
-# Create a draw object for the image
-text = "Go to "
-bold_text = "robinhoodarmy.com"
-remainig_text = "to learn more"
-font = ImageFont.truetype("arial.ttf", 15)
-bold_font = ImageFont.truetype("arialbd.ttf", 15)
-remainig_text_font = ImageFont.truetype("arial.ttf", 15)
-# get text box size
-text_box = draw.textbbox((0, 0), text + bold_text + remainig_text, font=bold_font)
-text_width, text_height = (
-    text_box[2] - text_box[0]), (text_box[3] - text_box[1])
-
-
-# paste image in container at the center
-url_container = Image.new('RGB', (text_width+margin, text_height+margin), color=(0, 254, 176))
-draw = ImageDraw.Draw(url_container)
-
-draw.text((margin//2, margin//2), text, font=font, fill=(0, 0, 0), align='center')
-draw.text((margin//2 + draw.textsize(text, font=font)[0], margin//2), bold_text, font=bold_font, fill=(0, 0, 0), align='center')
-draw.text((margin//2 + + margin//2 + draw.textsize(text, font=font)[0] +draw.textsize(bold_text, font=font)[0], margin//2), remainig_text, font=font, fill=(0, 0, 0), align='center')
-
-url_container_width, url_container_height = url_container.size
-x = (container_width - url_container_width) // 2
-y = int(used_height + margin*2)
-container.paste(url_container, (x, y))
-used_height = y + url_container_height
 
 
 # save the image
