@@ -1,72 +1,117 @@
 from PIL import Image, ImageDraw, ImageFont
 import requests
 import io
+from image_edit_helper import put_border_radius, create_gradient_image
 
 
-# put_border_radius
-def put_border_radius(image, border_radius, fill_color):
-    # create a draw object
-    draw = ImageDraw.Draw(image)
-    # draw a rounded rectangle
-    draw.rounded_rectangle((0, 0 ) + image.size, radius=border_radius, fill=fill_color, outline=(0, 0, 0, 0))
-
-    
-
-# get a random image 
-image_response = requests.get('https://source.unsplash.com/random/300x200')
-image = Image.open(io.BytesIO(image_response.content))
-# decorate the image
+# Define the colors for the gradient
+color1 = (0, 100, 40)
+color2 = (0, 71, 77)
 padding = 80
+margin = 30
 border_radius = 15
-fill_color = "green"
+container_size = (500, 700)
+container_width, container_height = container_size
+used_height = 0
+
+
+# Decorate the image ~~~~~~~~~~~~
+# ~~~~~~~~~~~~~ container ~~~~~~~~~~~~~~~~~~~~~
 # get container size
-container_size = (image.width + padding, image.height + padding *3)
-# create a new image
-container = Image.new('RGBA', container_size, (0, 0, 0, 0))
-
+# container_size = (image.width + padding, image.height + padding * 5)
+container = create_gradient_image(container_size, color1, color2)
 # put_border_radius
-put_border_radius(container, border_radius, fill_color)
+container = put_border_radius(container, border_radius)
 
+# ~~~~~~~~~~ logo image ~~~~~~~~~~~~
+# Put the logo image
+rha_logo_img = Image.open("static/rha-logo.png")
+# resize the logo image
+new_size = tuple(dim - padding*3 for dim in container_size)
+# new_size = tuple(dim // 1.6 for dim in container_size)
+rha_logo_img.thumbnail(new_size)
+
+# paste the logo image in the center of the container
+# container_width, container_height = container.size
+logo_width, logo_height = rha_logo_img.size
+x = (container_width - logo_width) // 2
+y = int(used_height + margin)
+container.paste(rha_logo_img, (x, y))
+used_height = y + logo_height
+# ~~~~~~~~~~ end: logo image ~~~~~~~~~~~~
+
+# ~~~~~~~~~~ image ~~~~~~~~~~~~
+# get a random image
+# image_response = requests.get('https://source.unsplash.com/random/300x200')
+# image = Image.open(io.BytesIO(image_response.content))
+image = Image.open("static/checkin-sample.jpg")
+# image = Image.open("static/checkin-sample2.jpg")
+
+# reduce image size
+new_size = tuple(dim - padding*1.5 for dim in container_size)
+# new_size = tuple(dim // 1.25 for dim in container_size)
+image.thumbnail(new_size)
+border_radius = 25
+image = put_border_radius(image, border_radius)
 
 # paste image in container at the center
-container_width, container_height = container.size
 image_width, image_height = image.size
 x = (container_width - image_width) // 2
-y = 30  # or any desired y-coordinate
-container.paste(image,(x,y)) 
+y = int(used_height + margin)
+container.paste(image, (x, y), image)
+used_height = y + image_height
+# ~~~~~~~~~~ end: image ~~~~~~~~~~~~
 
 
 # Add text to the container using the ImageDraw module
 draw = ImageDraw.Draw(container)
-text = "You have checked in \n successfully!"
+text = "I'M A ROBIN CARDET"
 font = ImageFont.truetype("arial.ttf", 18)
 # get text box size
-text_box  = draw.textbbox((0, 0), text, font=font)
-text_width, text_height = (text_box[2] - text_box[0]), (text_box[3] - text_box[1])
-text_position = ((container.width - text_width) / 2, image.height + padding)
-draw.text(text_position, text, font=font, fill="white", align='center')
+text_box = draw.textbbox((0, 0), text, font=font)
+text_width, text_height = (
+    text_box[2] - text_box[0]), (text_box[3] - text_box[1])
+x = (container.width - text_width) / 2
+y = int(used_height + margin)
+draw.text((x, y), text, font=font, fill=(30, 228, 179), align='center')
+used_height = y + text_height
 
 
 draw = ImageDraw.Draw(container)
-text = "Thank you <username>!"
-font = ImageFont.truetype("arial.ttf", 22)
+text = """I just checked-in to my \n 6th drive with RHA"""
+font = ImageFont.truetype("arial.ttf", 35)
 # get text box size
-text_box  = draw.textbbox((0, 0), text, font=font)
-text_width, text_height = (text_box[2] - text_box[0]), (text_box[3] - text_box[1])
-text_position = ((container.width - text_width) / 2, image.height + padding*1.6)
-draw.text(text_position, text, font=font, fill="Black", align='center')
+text_box = draw.textbbox((0, 0), text, font=font)
+text_width, text_height = (
+    text_box[2] - text_box[0]), (text_box[3] - text_box[1])
+x = (container.width - text_width) / 2
+y = int(used_height + margin *1.5)
+draw.text((x, y), text, font=font, fill=(255, 255, 255), align='center')
+used_height = y + text_height
+
+# ~~~~~~ website box ~~~~~~
 
 
-draw = ImageDraw.Draw(container)
-text = "This is your #7 drive with RHA."
+# Create a draw object for the image
+text = "Go to robinhoodarmy.com to learn more"
 font = ImageFont.truetype("arial.ttf", 15)
 # get text box size
-text_box  = draw.textbbox((0, 0), text, font=font)
-text_width, text_height = (text_box[2] - text_box[0]), (text_box[3] - text_box[1])
-text_position = ((container.width - text_width) / 2, image.height + padding*2)
-draw.text(text_position, text, font=font, fill="white", align='center')
+text_box = draw.textbbox((0, 0), text, font=font)
+text_width, text_height = (
+    text_box[2] - text_box[0]), (text_box[3] - text_box[1])
 
+
+# paste image in container at the center
+url_container = Image.new('RGB', (text_width+margin, text_height+margin), color=(0, 254, 176))
+draw = ImageDraw.Draw(url_container)
+
+draw.text((margin//2, margin//2), text, font=font, fill=(0, 0, 0), align='center')
+
+url_container_width, url_container_height = url_container.size
+x = (container_width - url_container_width) // 2
+y = int(used_height + margin*2)
+container.paste(url_container, (x, y))
+used_height = y + url_container_height
 
 # save the image
 container.save('decorated_image.png')
-
