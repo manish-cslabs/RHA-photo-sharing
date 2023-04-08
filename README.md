@@ -18,6 +18,9 @@ By default, the script fetches a random image from Unsplash and adds a border an
 - `font`: The font and size of the text.
 
 After running the script, the generated image will be saved in the same directory with the filename `decorated_image.png`.
---- 
-### decorated_image
+
+----
+## Expected image
+![Expected image](static/expected_desing.png)
+## decorated_image
 ![Decorated image](decorated_image.png)
