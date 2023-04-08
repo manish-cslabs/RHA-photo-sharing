@@ -21,7 +21,7 @@ used_height = 0
 # container_size = (image.width + padding, image.height + padding * 5)
 container = create_gradient_image(container_size, color1, color2)
 # put_border_radius
-container = put_border_radius(container, border_radius)
+# container = put_border_radius(container, border_radius)
 
 # ~~~~~~~~~~ logo image ~~~~~~~~~~~~
 # Put the logo image
@@ -44,9 +44,9 @@ used_height = y + logo_height
 # get a random image
 # image_response = requests.get('https://source.unsplash.com/random/300x200')
 # image = Image.open(io.BytesIO(image_response.content))
-image = Image.open("static/checkin-sample2.jpg")
-image = Image.open("static/checkin-sample3.jpg")
 image = Image.open("static/checkin-sample.jpg")
+image = Image.open("static/checkin-sample3.jpg")
+image = Image.open("static/checkin-sample2.jpg")
 
 # Crop the image
 # Define crop dimensions
@@ -111,32 +111,6 @@ x = (container_width - logo_width) // 2
 y = int(used_height + margin*1.5)
 container.paste(rha_logo_img, (x, y))
 used_height = y + logo_height
-# # Create a draw object for the image
-# text = "Go to "
-# bold_text = "robinhoodarmy.com"
-# remainig_text = "to learn more"
-# font = ImageFont.truetype("arial.ttf", 15)
-# bold_font = ImageFont.truetype("arialbd.ttf", 15)
-# remainig_text_font = ImageFont.truetype("arial.ttf", 15)
-# # get text box size
-# text_box = draw.textbbox((0, 0), text + bold_text + remainig_text, font=bold_font)
-# text_width, text_height = (
-#     text_box[2] - text_box[0]), (text_box[3] - text_box[1])
-
-
-# # paste image in container at the center
-# url_container = Image.new('RGB', (text_width+margin, text_height+margin), color=(0, 254, 176))
-# draw = ImageDraw.Draw(url_container)
-
-# draw.text((margin//2, margin//2), text, font=font, fill=(0, 0, 0), align='center')
-# draw.text((margin//2 + draw.textsize(text, font=font)[0], margin//2), bold_text, font=bold_font, fill=(0, 0, 0), align='center')
-# draw.text((margin//2 + + margin//2 + draw.textsize(text, font=font)[0] +draw.textsize(bold_text, font=font)[0], margin//2), remainig_text, font=font, fill=(0, 0, 0), align='center')
-
-# url_container_width, url_container_height = url_container.size
-# x = (container_width - url_container_width) // 2
-# y = int(used_height + margin*2)
-# container.paste(url_container, (x, y))
-# used_height = y + url_container_height
 
 
 # save the image
