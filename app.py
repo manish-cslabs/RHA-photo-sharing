@@ -44,9 +44,9 @@ used_height = y + logo_height
 # get a random image
 # image_response = requests.get('https://source.unsplash.com/random/300x200')
 # image = Image.open(io.BytesIO(image_response.content))
-image = Image.open("static/checkin-sample.jpg")
-image = Image.open("static/checkin-sample3.jpg")
 image = Image.open("static/checkin-sample2.jpg")
+image = Image.open("static/checkin-sample3.jpg")
+image = Image.open("static/checkin-sample.jpg")
 
 # Crop the image
 # Define crop dimensions
@@ -70,6 +70,20 @@ used_height = y + image_height
 # ~~~~~~~~~~ end: image ~~~~~~~~~~~~
 
 
+# ~~~~~~~~~~ Badge image ~~~~~~~~~~~~
+badge_image = Image.open("static/badges/cadet.png")
+# resize the badge_image
+new_size = tuple(dim - padding*2.5 for dim in image.size)
+# new_size = tuple(dim // 1.6 for dim in container_size)
+badge_image.thumbnail(new_size)
+# paste image in container at the center
+image_width, image_height = badge_image.size
+x = (container_width - image_width) // 2
+y = int(used_height - margin*1.3)
+container.paste(badge_image, (x, y), badge_image)
+used_height = y + image_height
+# ~~~~~~~~~~ end: Badge image ~~~~~~~~~~~~
+
 # Add text to the container using the ImageDraw module
 draw = ImageDraw.Draw(container)
 text = "I'M A ROBIN CADET"
@@ -79,7 +93,7 @@ text_box = draw.textbbox((0, 0), text, font=font)
 text_width, text_height = (
     text_box[2] - text_box[0]), (text_box[3] - text_box[1])
 x = (container.width - text_width) / 2
-y = int(used_height + margin)
+y = int(used_height + margin*0.5)
 draw.text((x, y), text, font=font, fill=(30, 228, 179), align='center')
 used_height = y + text_height
 
@@ -92,7 +106,7 @@ text_box = draw.textbbox((0, 0), text, font=font)
 text_width, text_height = (
     text_box[2] - text_box[0]), (text_box[3] - text_box[1])
 x = (container.width - text_width) / 2
-y = int(used_height + margin *1.5)
+y = int(used_height + margin *1.3)
 draw.text((x, y), text, font=font, fill=(255, 255, 255), align='center')
 used_height = y + text_height
 

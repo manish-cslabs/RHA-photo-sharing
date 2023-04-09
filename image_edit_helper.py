@@ -48,24 +48,3 @@ def put_border_radius(image, border_radius, border_width=5, border_color=(255, 2
 
     return img_container
 
-
-
-# from PIL import Image
-
-# color1 = (0, 100, 40)
-# color2 = (0, 71, 77)
-# width, height = 300, 200
-
-# # create a new gradient image
-# gradient = Image.new('RGB', (width, height))
-
-# # draw gradient
-# for x in range(width):
-#     for y in range(height):
-#         r = int(color1[0] + (color2[0] - color1[0]) * x / width)
-#         g = int(color1[1] + (color2[1] - color1[1]) * x / width)
-#         b = int(color1[2] + (color2[2] - color1[2]) * x / width)
-#         gradient.putpixel((x, y), (r, g, b))
-
-# # save image
-# gradient.save('gradient.png')
