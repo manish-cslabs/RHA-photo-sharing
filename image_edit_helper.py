@@ -44,7 +44,42 @@ def put_border_radius(image, border_radius, border_width=5, border_color=(255, 2
 
     # Draw the border
     draw = ImageDraw.Draw(img_container)
-    draw.rounded_rectangle((0, 0) + img_container_size, radius=border_radius, outline=border_color, width=border_width)
+    draw.rounded_rectangle((0, 0) + img_container_size,
+                           radius=border_radius, outline=border_color, width=border_width)
 
     return img_container
 
+
+# get_badge_details
+def get_badge_details(drive_count):
+    badge_text = ""
+    badge_img_path = ""
+    if(drive_count >= 100):
+        badge_text = "centurion"
+        badge_img_path = "centurion"
+    elif(drive_count >= 50):
+        badge_text = "gladiator"
+        badge_img_path = "gladiator"
+    elif(drive_count >= 10):
+        badge_text = "ninja"
+        badge_img_path = "ninja"
+    elif(drive_count >= 0):
+        badge_text = "cadet"
+        badge_img_path = "cadet"
+
+    return badge_text, badge_img_path
+
+
+# get_count_decorated
+def get_count_decorated(drive_count):
+    count_decorated = ""
+    if(drive_count == 1):
+        count_decorated = "1ˢᵗ"
+    elif(drive_count == 2):
+        count_decorated = "2ⁿᵈ"
+    elif(drive_count == 3):
+        count_decorated = "3ʳᵈ"
+    else:
+        count_decorated = f"{drive_count}ᵗʰ"
+
+    return count_decorated
